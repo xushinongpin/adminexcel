@@ -85,17 +85,11 @@
                         <li data-name="user" class="layui-nav-item">
                             <a href="javascript:;" lay-tips="用户" lay-direction="2">
                                 <i class="layui-icon layui-icon-user"></i>
-                                <cite>用户</cite>
+                                <cite>用户管理</cite>
                             </a>
                             <dl class="layui-nav-child">
                                 <dd>
-                                    <a lay-href="/customer">网站用户</a>
-                                </dd>
-                                <dd>
-                                    <a lay-href="user/administrators/list.html">后台管理员</a>
-                                </dd>
-                                <dd>
-                                    <a lay-href="user/administrators/role.html">角色管理</a>
+                                    <a lay-href="/customer">线下客户</a>
                                 </dd>
                             </dl>
                         </li>

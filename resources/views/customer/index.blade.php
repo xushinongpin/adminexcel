@@ -24,8 +24,6 @@
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
-
-    //表单的id用于表单的选择，style是在本页隐藏，只有点击编辑才会弹出
     <div class="layui-row" id="popUpdateTest" style="display:none;">
         <div class="layui-col-md10">
             <form class="layui-form layui-from-pane" action="" style="margin-top:20px" >
@@ -64,7 +62,7 @@
                 elem: '#test'
                 ,url:url
                 ,toolbar: '#toolbarDemo'
-                ,title: '用户数据表'
+                ,title: '客户数据表'
                 ,cols: [[
                     {type: 'checkbox', fixed: 'left'}
                     ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
@@ -78,7 +76,8 @@
                     ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
                 ]]
                 ,page: true
-                ,limits: [10]
+                ,height: 600
+                ,limits: [10,50,100,200,500]
                 ,even: true
             });
 
@@ -104,11 +103,11 @@
             table.on('tool(test)', function(obj){
                 var data = obj.data;
                 if(obj.event === 'del'){
-                    layer.confirm('真的删除行么', function(index){
-                        obj.del();
-                        layer.close(index);
-                    });
+                    data.del = 1;
+                    data.msg = '删除数据： ';
+                    active['ajax'] ? active['ajax'].call(this,data) : '';
                 } else if(obj.event === 'edit'){
+                    data.msg = '修改数据： ';
                     active['ajax'] ? active['ajax'].call(this,data) : '';
                 }
                 return false;
@@ -127,7 +126,7 @@
                 },
                 ajax: function (oindex) {
                     oindex._token = $('meta[name="csrf-token"]').attr('content');
-                    layer.confirm(JSON.stringify(oindex),function (index) {
+                    layer.confirm(oindex.msg + JSON.stringify(oindex),function (index) {
                         $.ajax({
                             url:url,
                             type:'post',
@@ -164,6 +163,7 @@
 
             //监听提交添加操作
             form.on('submit(addcustomer)', function(data){
+                data.field.msg = '添加数据： ';
                 active['ajax'] ? active['ajax'].call(this,data.field) : '';
                 return false;
             });

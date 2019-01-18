@@ -26,7 +26,7 @@ class CustomerController extends Controller
     {
         if($request->ajax()){
             $customer = new Customer();
-            return $this->returnAjaxData($customer->index());
+            return $this->returnAjaxData($customer->index($request));
         }
         return view('customer/index');
     }

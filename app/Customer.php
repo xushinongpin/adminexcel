@@ -11,9 +11,9 @@ class Customer extends Model
         $this->uid = Auth::id();
     }
     //select all for where
-    public function index(){
+    public function index($request){
         $uid = $this->uid;
-        return $this->where('uid',$uid)->orderBy('id','dasc')->orderBy('status','desc')->paginate(10);
+        return $this->where('uid',$uid)->orderBy('id','dasc')->orderBy('status','desc')->paginate($request->limit);
     }
 
     //update one customer data
@@ -26,6 +26,10 @@ class Customer extends Model
         }
         if(!isset($request->uid)){
             $return = $this->createOne($request);
+            $res['msg'] = '添加成功';
+        }elseif(isset($request->del)){
+            $return = $this->deleteOne($request);
+            $res['msg'] = '删除成功';
         }else{
             if($request->uid != $this->uid){
                 $res['msg'] = 'uid fail';
@@ -37,20 +41,28 @@ class Customer extends Model
             $where['id'] = $request->id;
             $where['uid'] = $this->uid;
             $return = $this->where($where)->update($save);
+            $res['msg'] = '修改成功';
         }
         if($return){
             $res['status'] = 1;
-            $res['msg'] = '添加修改成功';
         }
         return $res;
     }
 
     //add one customer data
     private function createOne($request){
-        $add['uid'] = $this->uid;
-        $add['updated_at'] = $add['created_at'] = date("Y-m-d H:i:s");
-        $add['name'] = $request->name;
-        $add['status'] = $request->status;
-        return $this->create($add);
+        $customer = new Customer;
+        $customer->uid = $this->uid;
+        $customer->updated_at = $customer->created_at = date("Y-m-d H:i:s");
+        $customer->name = $request->name;
+        $customer->status = $request->status;
+        return $customer->save();
+    }
+
+    //delete one customer
+    private function deleteOne($request){
+        $where['id'] = $request->id;
+        $where['uid'] = $this->uid;
+        return $this->where($where)->delete();
     }
 }
