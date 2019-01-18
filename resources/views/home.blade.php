@@ -60,11 +60,33 @@
             <!-- 侧边菜单 -->
             <div class="layui-side layui-side-menu">
                 <div class="layui-side-scroll">
-                    <div class="layui-logo" lay-href="home/console.html">
+                    <div class="layui-logo" lay-href="/order">
                         <span>操作功能</span>
                     </div>
 
                     <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
+                        <li data-name="user" class="layui-nav-item">
+                            <a href="javascript:;" lay-tips="订单表" lay-direction="2">
+                                <i class="layui-icon layui-icon-user"></i>
+                                <cite>订单管理</cite>
+                            </a>
+                            <dl class="layui-nav-child">
+                                <dd>
+                                    <a lay-href="/order">当天下单</a>
+                                </dd>
+                            </dl>
+                        </li>
+                        <li data-name="user" class="layui-nav-item">
+                            <a href="javascript:;" lay-tips="订单表" lay-direction="2">
+                                <i class="layui-icon layui-icon-user"></i>
+                                <cite>商品管理</cite>
+                            </a>
+                            <dl class="layui-nav-child">
+                                <dd>
+                                    <a lay-href="/products">所有商品</a>
+                                </dd>
+                            </dl>
+                        </li>
                         <li data-name="user" class="layui-nav-item">
                             <a href="javascript:;" lay-tips="用户" lay-direction="2">
                                 <i class="layui-icon layui-icon-user"></i>
@@ -98,7 +120,7 @@
                 </div>
                 <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
                     <ul class="layui-tab-title" id="LAY_app_tabsheader">
-                        <li lay-id="home/console.html" lay-attr="home/console.html" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
+                        <li lay-id="/order" lay-attr="/order" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
                     </ul>
                 </div>
             </div>
@@ -107,7 +129,7 @@
             <!-- 主体内容 -->
             <div class="layui-body" id="LAY_app_body">
                 <div class="layadmin-tabsbody-item layui-show">
-                    <iframe src="/customer" frameborder="0" class="layadmin-iframe"></iframe>
+                    <iframe src="/order" frameborder="0" class="layadmin-iframe"></iframe>
                 </div>
             </div>
 

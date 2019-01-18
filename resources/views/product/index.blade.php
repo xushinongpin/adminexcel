@@ -1,6 +1,5 @@
 @extends('layui.default')
 @section('content')
-
     <div class="layui-fluid demoTable">
         <div class="layui-card">
             <div class="layui-card-body">
@@ -12,13 +11,6 @@
     </div>
 
     <table class="layui-hide" id="test" lay-filter="test"></table>
-    {{--<script type="text/html" id="toolbarDemo">--}}
-        {{--<div class="layui-btn-container">--}}
-            {{--<button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>--}}
-            {{--<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>--}}
-            {{--<button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>--}}
-        {{--</div>--}}
-    {{--</script>--}}
 
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -28,7 +20,7 @@
         <div class="layui-col-md10">
             <form class="layui-form layui-from-pane" action="" style="margin-top:20px" >
                 <div class="layui-form-item">
-                    <label class="layui-form-label">客户状态</label>
+                    <label class="layui-form-label">客户产品</label>
                     <div class="layui-input-block">
                         <select name="status" lay-filter="eqptType">
                             <option value="1" selected="">启用</option>
@@ -37,7 +29,7 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">客户名称</label>
+                    <label class="layui-form-label">产品名称</label>
                     <div class="layui-input-block">
                         <input type="text" name="name" required  lay-verify="required" autocomplete="off" placeholder="请输入客户名称" class="layui-input">
                     </div>
@@ -55,9 +47,9 @@
     <script>
         layui.use('table', function(){
             var table = layui.table,
-            form = layui.form,
-            $ = layui.$,
-            url = '/customer';
+                form = layui.form,
+                $ = layui.$,
+                url = '/products';
             table.render({
                 elem: '#test'
                 ,url:url
@@ -65,9 +57,9 @@
                 ,title: '客户数据表'
                 ,cols: [[
                     {field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
-                    ,{field:'name', title:'用户名', width:120, edit: 'text'}
+                    ,{field:'name', title:'产品名称', width:120, edit: 'text'}
                     ,{field:'status', title:'状态【1使用 2停用】', width:200, edit: 'text', templet: function(res){
-                        var statusObj = {'1':'启用','2':'停用'};
+                            var statusObj = {'1':'启用','2':'停用'};
                             return '<em>'+ statusObj[res.status] +'</em>'
                         }}
                     ,{field:'created_at', title:'添加时间', width:120}
@@ -118,7 +110,7 @@
                     layer.open({
                         //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                         type: 1,
-                        title: "添加客户",
+                        title: "添加产品",
                         area: ['420px', '330px'],
                         content: $("#popUpdateTest")//引用的弹出层的页面层的方式加载修改界面表单
                     });

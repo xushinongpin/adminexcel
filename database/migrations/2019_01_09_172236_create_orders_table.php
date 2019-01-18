@@ -15,7 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('cid')->comment('客户名称对应id');
+            $table->integer('uid')->comment('客户id');
             $table->integer('pid')->comment('关联产品名id');
             $table->integer('price')->comment('单价价格');
             $table->integer('requirement')->comment('需求量');

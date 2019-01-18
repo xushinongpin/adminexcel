@@ -1,6 +1,5 @@
 @extends('layui.default')
 @section('content')
-
     <div class="layui-fluid demoTable">
         <div class="layui-card">
             <div class="layui-card-body">
@@ -12,13 +11,9 @@
     </div>
 
     <table class="layui-hide" id="test" lay-filter="test"></table>
-    {{--<script type="text/html" id="toolbarDemo">--}}
-        {{--<div class="layui-btn-container">--}}
-            {{--<button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>--}}
-            {{--<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>--}}
-            {{--<button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>--}}
-        {{--</div>--}}
-    {{--</script>--}}
+    <script type="text/html" id="toolbarDemo">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">批量提交</button>
+    </script>
 
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -55,19 +50,21 @@
     <script>
         layui.use('table', function(){
             var table = layui.table,
-            form = layui.form,
-            $ = layui.$,
-            url = '/customer';
+                form = layui.form,
+                $ = layui.$,
+                url = '/customer';
             table.render({
                 elem: '#test'
                 ,url:url
                 ,toolbar: '#toolbarDemo'
                 ,title: '客户数据表'
                 ,cols: [[
-                    {field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
-                    ,{field:'name', title:'用户名', width:120, edit: 'text'}
+                    {type: 'checkbox', fixed: 'left'}
+                    ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
+                    ,{field:'uid', title:'用户名', width:120, edit: 'text'}
+                    ,{field:'uid', title:'用户名', width:120, edit: 'text'}
                     ,{field:'status', title:'状态【1使用 2停用】', width:200, edit: 'text', templet: function(res){
-                        var statusObj = {'1':'启用','2':'停用'};
+                            var statusObj = {'1':'启用','2':'停用'};
                             return '<em>'+ statusObj[res.status] +'</em>'
                         }}
                     ,{field:'created_at', title:'添加时间', width:120}

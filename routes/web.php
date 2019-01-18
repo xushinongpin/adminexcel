@@ -21,4 +21,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('/customer','CustomerController');
 
+Route::resource('/order','OrderController');
+
+Route::resource('/products','ProductController');
+
 //Route::post('/customer','CustomerController@update');
