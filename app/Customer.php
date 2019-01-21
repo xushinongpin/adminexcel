@@ -12,8 +12,9 @@ class Customer extends Model
     }
     //select all for where
     public function index($request){
-        $uid = $this->uid;
-        return $this->where('uid',$uid)->orderBy('status','asc')->paginate($request->limit);
+        $where['uid'] = $this->uid;
+        if($request->status) $where['status'] = $request->status;
+        return $this->where($where)->orderBy('status','asc')->paginate($request->limit);
     }
 
     //update one customer data

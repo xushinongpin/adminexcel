@@ -65,4 +65,11 @@ class Product extends Model
         $where['uid'] = $this->uid;
         return $this->where($where)->delete();
     }
+
+    //can sales the product
+    public function canSales($status=1){
+        $where['uid'] = $this->uid;
+        $where['status'] = $status;
+        return $this->where($where)->get();
+    }
 }
