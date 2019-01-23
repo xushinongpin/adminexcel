@@ -76,6 +76,7 @@
                 ]]
                 ,page: true
                 ,height: 600
+                ,id: 'testReload'
                 ,limits: [10,50,100,200,500]
                 ,even: true
             });
@@ -120,6 +121,7 @@
                         type: 1,
                         title: "添加客户",
                         area: ['420px', '330px'],
+                        shadeClose:true,
                         content: $("#popUpdateTest")//引用的弹出层的页面层的方式加载修改界面表单
                     });
                 },
@@ -143,7 +145,11 @@
                                         icon: 6,//成功的表情
                                         time: 1000 //1秒关闭（如果不配置，默认是3秒）
                                     }, function(){
-                                        location.reload();
+                                        table.reload('testReload', {
+                                            page: {
+                                                curr: 1 //重新从第 1 页开始
+                                            }
+                                        });
                                     });
                                 }
                             },

@@ -41,6 +41,7 @@
                 ,toolbar: '#toolbarDemo'
                 ,title: '客户数据表'
                 ,cols: product
+                ,id: 'testReload'
                 ,height: 600
                 ,even: true
             });
@@ -81,23 +82,14 @@
 
             //监听添加
             var active = {
-                add: function(){
-                    layer.open({
-                        //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                        type: 1,
-                        title: "添加客户",
-                        area: ['420px', '330px'],
-                        content: $("#popUpdateTest")//引用的弹出层的页面层的方式加载修改界面表单
-                    });
-                },
                 ajax: function (oindex) {
-                    console.log();
                     if(oindex.length < 3){
                         layer.msg('您没有需要修改任何东西，请选中再提交');
                         return false;
                     }
                     var data_field = {};
                     data_field.data = oindex;
+                    data_field.time = $('#date').val();
                     data_field._token = $('meta[name="csrf-token"]').attr('content');
                     layer.confirm('添加修改内容： '+JSON.stringify(data_field),function (index) {
                         $.ajax({
@@ -108,19 +100,22 @@
                                 this.layerIndex = layer.load(0, { shade: [0.5, '#393D49'] });
                             },
                             success:function(data){
-                                console.log(data);
-                                // if(data.status == 'error'){
-                                //     layer.msg(data.msg,{icon: 5});//失败的表情
-                                //     o.removeClass('layui-btn-disabled');
-                                //     return;
-                                // }else{
-                                //     layer.msg(data.msg, {
-                                //         icon: 6,//成功的表情
-                                //         time: 1000 //1秒关闭（如果不配置，默认是3秒）
-                                //     }, function(){
-                                //         location.reload();
-                                //     });
-                                // }
+                                if(data.status == 'error'){
+                                    layer.msg(data.msg,{icon: 5});//失败的表情
+                                    o.removeClass('layui-btn-disabled');
+                                    return;
+                                }else{
+                                    layer.msg(data.msg, {
+                                        icon: 6,//成功的表情
+                                        time: 2000 //1秒关闭（如果不配置，默认是3秒）
+                                    }, function(){
+                                        table.reload('testReload', {
+                                            page: {
+                                                curr: 1 //重新从第 1 页开始
+                                            }
+                                        });
+                                    });
+                                }
                             },
                             complete: function () {
                                 layer.close(this.layerIndex);

@@ -21,6 +21,7 @@ class CreateOrdersTable extends Migration
             $table->integer('price')->comment('单价价格');
             $table->integer('requirement')->comment('需求量');
             $table->timestamp('time')->comment('下单时间');
+            $table->unique(['uid','cid','pid','time']);
             $table->timestamps();
         });
     }
