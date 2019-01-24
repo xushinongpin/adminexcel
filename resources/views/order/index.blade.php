@@ -29,7 +29,8 @@
             url = '/order',
             laydate = layui.laydate,
             strseparator = '{{$strseparator}}',
-            product = {!! $product !!};
+            product = {!! $product !!},
+            titledata = {!! $titledata !!};
 
             //日期
             laydate.render({
@@ -45,7 +46,30 @@
                 ,id: 'testReload'
                 ,height: 600
                 ,even: true
+                ,skin:'row'
                 ,totalRow: true
+            });
+
+            //监听行单击事件（单击事件为：rowDouble）
+            table.on('row(test)', function(obj){
+                var data = obj.data,thdata = '',tddata = '';
+                layui.each(data,function (index,item) {
+                    if(index.indexOf('requirement') > -1 && item > 0){
+                        thdata += '<th lay-data="{field:\''+index+'\', width:200}">titledata[index]</th>';
+                        //item * data['price'+strseparator+index.split(strseparator)[1]];
+                    }
+                });
+                console.log(data);
+                console.log(thdata);
+
+
+                // layer.alert(JSON.stringify(data), {
+                //     title: '当前行数据：'
+                // });
+                //
+                // //标注选中样式
+                obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
+
             });
 
             //头工具栏事件
@@ -123,24 +147,20 @@
                                 layer.close(this.layerIndex);
                             },
                         });
-                    })
+                    });
                     return false;
                 },
                 reload: function(){
-                    console.log(1);
-                    // var demoReload = $('#demoReload');
-                    //
-                    // //执行重载
-                    // table.reload('testReload', {
-                    //     page: {
-                    //         curr: 1 //重新从第 1 页开始
-                    //     }
-                    //     ,where: {
-                    //         key: {
-                    //             id: demoReload.val()
-                    //         }
-                    //     }
-                    // });
+                    var time = $('#date').val();
+                    //执行重载
+                    table.reload('testReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        ,where: {
+                            time: time
+                        }
+                    });
                 }
             };
             $('.demoTable .layui-btn').on('click', function(){

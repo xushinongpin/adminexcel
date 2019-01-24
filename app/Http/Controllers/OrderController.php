@@ -58,10 +58,12 @@ class OrderController extends Controller
         foreach ($productData as $pv){
             $productTitle .= "{field:'requirement".$this->strseparator.$pv['id']."', title:'".$pv['name']."量', width:120, edit: 'text', totalRow: true},";
             $productTitle .= "{field:'price".$this->strseparator.$pv['id']."', title:'单价', width:60, edit: 'text'},";
+            //点击出现的导航需要
+            $titleData['requirement'.$this->strseparator.$pv['id']] = $pv['name'];
         }
         $productTitle .= "{field:'totalmoney', title:'总价', width:120, totalRow: true},{field:'username', title:'购买用户', width:100, fixed: 'right'}]]";
         unset($productData);
-        return view('order/index',['product'=>$productTitle,'strseparator'=>$this->strseparator]);
+        return view('order/index',['product'=>$productTitle,'strseparator'=>$this->strseparator,'titledata'=>json_encode($titleData)]);
     }
 
     /**
@@ -144,7 +146,8 @@ class OrderController extends Controller
         foreach ($parr as $pv){
             $data['username'] = $carr['name'];
             $data['cid'] = $carr['id'];
-            $data[$pv['id']] = $pv['id'];
+            $data['LAY_CHECKED'] = true;
+//            $data[$pv['id']] = $pv['id'];
             if(isset($oarr[$carr['id']][$pv['id']]['price'])){
                 $data['totalmoney'] += ($oarr[$carr['id']][$pv['id']]['price'] * $oarr[$carr['id']][$pv['id']]['requirement']);
             }
@@ -158,6 +161,7 @@ class OrderController extends Controller
     private function searchexprrd($data){
         unset($data['username']);
         unset($data['cid']);
+        unset($data['totalmoney']);
         foreach ($data as $dk => $dv){
             if(is_numeric($dk)) continue;
             $arr = explode('--',$dk);
