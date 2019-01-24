@@ -57,9 +57,9 @@ class OrderController extends Controller
         $productTitle = "[[{type:'checkbox',fixed:'left'},{field:'cid', width:60, title: 'ID', totalRowText: '合计'},";
         foreach ($productData as $pv){
             $productTitle .= "{field:'requirement".$this->strseparator.$pv['id']."', title:'".$pv['name']."量', width:120, edit: 'text', totalRow: true},";
-            $productTitle .= "{field:'price".$this->strseparator.$pv['id']."', title:'单价', width:60, edit: 'text', totalRow: true},";
+            $productTitle .= "{field:'price".$this->strseparator.$pv['id']."', title:'单价', width:60, edit: 'text'},";
         }
-        $productTitle .= "{field:'totalmoney', title:'总价', width:120,templet:function(d){return totalmoney(d)}, totalRow: true},{field:'username', title:'购买用户', width:100, fixed: 'right'}]]";
+        $productTitle .= "{field:'totalmoney', title:'总价', width:120, totalRow: true},{field:'username', title:'购买用户', width:100, fixed: 'right'}]]";
         unset($productData);
         return view('order/index',['product'=>$productTitle,'strseparator'=>$this->strseparator]);
     }
@@ -86,7 +86,7 @@ class OrderController extends Controller
         $data = json_decode($request->data,true);
         foreach ($data as $dv){
             $ndata = $this->searchexprrd($dv);
-            $return = $order->insertorupdate($ndata,$dv['cid'],$request->time);
+            $order->insertorupdate($ndata,$dv['cid'],$request->time);
         }
         $succ['status'] = 1;
         $succ['msg'] = '即将刷新页面';
@@ -140,11 +140,14 @@ class OrderController extends Controller
 
     private function consolidated($carr,$parr,$oarr){
         $oarr = $this->treeorder($oarr);
+        $data['totalmoney'] = 0;
         foreach ($parr as $pv){
             $data['username'] = $carr['name'];
             $data['cid'] = $carr['id'];
             $data[$pv['id']] = $pv['id'];
-
+            if(isset($oarr[$carr['id']][$pv['id']]['price'])){
+                $data['totalmoney'] += ($oarr[$carr['id']][$pv['id']]['price'] * $oarr[$carr['id']][$pv['id']]['requirement']);
+            }
             $data['price'.$this->strseparator.$pv['id']] = isset($oarr[$carr['id']][$pv['id']]['price']) ? $oarr[$carr['id']][$pv['id']]['price'] : 0;
             $data['requirement'.$this->strseparator.$pv['id']] = isset($oarr[$carr['id']][$pv['id']]['requirement']) ? $oarr[$carr['id']][$pv['id']]['requirement'] : 0;
         }
@@ -164,7 +167,7 @@ class OrderController extends Controller
     }
 
     //组合好订单数组
-    private function treeorder($oarr){
+    private static function treeorder($oarr){
         $new = array();
         foreach ($oarr as $ov) {
             $new[$ov['cid']][$ov['pid']]['price'] = $ov['price'];
