@@ -30,7 +30,7 @@ class OrderController extends Controller
         $product = new Product();
         $productData = $product->canSales();
         if($request->ajax()){
-
+            $request->limit = 1000000;
             //select customer
             $customer = new Customer();
             $customerData = $customer->index($request);
@@ -44,7 +44,6 @@ class OrderController extends Controller
             foreach ($customerData as $cv){
                 $orderTableArr[$cv['id']] = $this->consolidated($cv,$productData,$orderData);
             }
-            dd($orderTableArr);
             $returnData = array();
             $returnData['code'] = 0;
             $returnData['count'] = count($orderTableArr);
@@ -55,14 +54,14 @@ class OrderController extends Controller
         }
 
         //table title
-        $productTitle = "[[{type:'checkbox',fixed:'left'},{field:'cid', width:60, title: 'ID'},";
+        $productTitle = "[[{type:'checkbox',fixed:'left'},{field:'cid', width:60, title: 'ID', totalRowText: '合计'},";
         foreach ($productData as $pv){
-            $productTitle .= "{field:'requirement".$this->strseparator.$pv['id']."', title:'".$pv['name']."量', width:120, edit: 'text'},";
-            $productTitle .= "{field:'price".$this->strseparator.$pv['id']."', title:'单价', width:60, edit: 'text'},";
+            $productTitle .= "{field:'requirement".$this->strseparator.$pv['id']."', title:'".$pv['name']."量', width:120, edit: 'text', totalRow: true},";
+            $productTitle .= "{field:'price".$this->strseparator.$pv['id']."', title:'单价', width:60, edit: 'text', totalRow: true},";
         }
-        $productTitle .= "{field:'totalmoney', title:'总价', width:120},{field:'username', title:'购买用户', width:100, fixed: 'right'}]]";
+        $productTitle .= "{field:'totalmoney', title:'总价', width:120,templet:function(d){return totalmoney(d)}, totalRow: true},{field:'username', title:'购买用户', width:100, fixed: 'right'}]]";
         unset($productData);
-        return view('order/index',['product'=>$productTitle]);
+        return view('order/index',['product'=>$productTitle,'strseparator'=>$this->strseparator]);
     }
 
     /**
@@ -166,6 +165,7 @@ class OrderController extends Controller
 
     //组合好订单数组
     private function treeorder($oarr){
+        $new = array();
         foreach ($oarr as $ov) {
             $new[$ov['cid']][$ov['pid']]['price'] = $ov['price'];
             $new[$ov['cid']][$ov['pid']]['requirement'] = $ov['requirement'];

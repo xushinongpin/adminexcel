@@ -28,6 +28,7 @@
             $ = layui.$,
             url = '/order',
             laydate = layui.laydate,
+            strseparator = '{{$strseparator}}',
             product = {!! $product !!};
 
             //日期
@@ -44,6 +45,7 @@
                 ,id: 'testReload'
                 ,height: 600
                 ,even: true
+                ,totalRow: true
             });
 
             //头工具栏事件
@@ -152,6 +154,16 @@
                 active['ajax'] ? active['ajax'].call(this,data.field) : '';
                 return false;
             });
+
+            function totalmoney(data) {
+                var num = 0;
+                layui.each(data,function (index,item) {
+                    if(index.indexOf('price') > -1){
+                        num += (item * data['requirement'+strseparator+index.split(strseparator)[1]]);
+                    }
+                });
+                return num;
+            }
         });
     </script>
 @endsection
