@@ -20,6 +20,11 @@
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
+    <blockquote class="layui-elem-quote layui-text">
+        点击用户名称即可查看该用户购买情况
+    </blockquote>
+    <table lay-filter="parse-table-demo" class="parse-table-demo">
+    </table>
 @section('layuijs')
     <script>
         layui.use(['form', 'layedit', 'laydate','table'], function(){
@@ -52,21 +57,19 @@
 
             //监听行单击事件（单击事件为：rowDouble）
             table.on('row(test)', function(obj){
-                var data = obj.data,thdata = '',tddata = '';
+                var data = obj.data,thdata = '<table lay-filter="parse-table-demo"><thead><tr><th lay-data="{field:\'username\', width:200}">用户</th>',tddata = '<tbody><tr><td>'+data['username']+'</td>';
                 layui.each(data,function (index,item) {
                     if(index.indexOf('requirement') > -1 && item > 0){
-                        thdata += '<th lay-data="{field:\''+index+'\', width:200}">titledata[index]</th>';
+                        thdata += '<th lay-data="{field:\''+index+'\', width:100}">'+titledata[index]+'</th><th lay-data="{field:\'price\', width:100}">价格</th>';
+                        tddata += '<td>'+item+'</td><td>'+data['price'+strseparator+index.split(strseparator)[1]]+'</td>';
                         //item * data['price'+strseparator+index.split(strseparator)[1]];
                     }
                 });
+                thdata += '<th lay-data="{field:\'totalmoney\', width:100}">总价</th></tr></thead> ';
+                tddata += '<td>'+data['totalmoney']+'</td></tr></tbody>';
+                $('.parse-table-demo').html(thdata+tddata);
+                active['parseTable'] ? active['parseTable'].call(this) : '';
                 console.log(data);
-                console.log(thdata);
-
-
-                // layer.alert(JSON.stringify(data), {
-                //     title: '当前行数据：'
-                // });
-                //
                 // //标注选中样式
                 obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
 
@@ -161,7 +164,12 @@
                             time: time
                         }
                     });
-                }
+                },
+                parseTable: function(){
+                    table.init('parse-table-demo', { //转化静态表格
+                        //height: 'full-500'
+                    });
+                },
             };
             $('.demoTable .layui-btn').on('click', function(){
                 var type = $(this).data('type');

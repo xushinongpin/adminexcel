@@ -29,9 +29,9 @@ class Order extends Model
             $dv['cid'] = $cid;
             $dv['time'] = $time;
             $dv['pid'] = $dk;
-            $insert = $this->insertnewdata($dv);
+            $this->insertnewdata($dv);
         }
-        return $insert;
+        return true;
     }
 
     private function insertnewdata($data){
