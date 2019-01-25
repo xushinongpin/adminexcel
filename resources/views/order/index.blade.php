@@ -2,29 +2,42 @@
 @section('content')
     <style>
         .demoTable{margin:20px 0 0 20px}
+        .divbox{width: 100%;height: 100%;overflow: scroll;}
+        .delivery-note p{height: 40px;line-height: 40px;border: 1px solid #a7a5a5;padding: 1px;margin-top: 2px}
+        .delivery-note p span{display: inline-block;height: 100%; border: 1px solid #a7a5a5;padding:0 10px 0 10px;}
     </style>
-    <div class="demoTable">
-        <div class="layui-inline">
-            <label class="layui-form-label">哪天数据：</label>
-            <div class="layui-input-inline">
-                <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+    <div class="divbox">
+        <div class="demoTable">
+            <div class="layui-inline">
+                <label class="layui-form-label">哪天数据：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+                </div>
             </div>
+            <button class="layui-btn" data-type="reload">搜索</button>
         </div>
-        <button class="layui-btn" data-type="reload">搜索</button>
+        <table class="layui-hide" id="test" lay-filter="test"></table>
+        <script type="text/html" id="toolbarDemo">
+            <button class="layui-btn layui-btn-sm" lay-event="getCheckData">提交修改</button>【选中需要提交的】
+        </script>
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+        <div>
+            <blockquote class="layui-elem-quote layui-text">
+                点击用户名称即可查看该用户购买情况
+            </blockquote>
+            <table lay-filter="parse-table-demo" class="parse-table-demo">
+            </table>
+        </div>
+        <div>
+            <blockquote class="layui-elem-quote layui-text">
+                送货单
+            </blockquote>
+            <div class="delivery-note"></div>
+        </div>
     </div>
-    <table class="layui-hide" id="test" lay-filter="test"></table>
-    <script type="text/html" id="toolbarDemo">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">提交修改</button>【选中需要提交的】
-    </script>
-    <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    </script>
-    <blockquote class="layui-elem-quote layui-text">
-        点击用户名称即可查看该用户购买情况
-    </blockquote>
-    <table lay-filter="parse-table-demo" class="parse-table-demo">
-    </table>
 @section('layuijs')
     <script>
         layui.use(['form', 'layedit', 'laydate','table'], function(){
@@ -53,6 +66,19 @@
                 ,even: true
                 ,skin:'row'
                 ,totalRow: true
+                ,done: function (res) {
+                    var delivery_note = '';
+                    layui.each(res.data,function (index,item) {//得到三维数组里面的二维
+                        s_delivery_note = '';
+                        layui.each(item,function (mindex,mitem) {
+                            if(mindex.indexOf('requirement') > -1 && mitem > 0){
+                                s_delivery_note += '<span> '+titledata[mindex]+': '+item['price'+strseparator+mindex.split(strseparator)[1]]+': </span>';
+                            }
+                        });
+                        if(s_delivery_note) delivery_note += '<p><span>客户： '+item['username']+'</span>'+s_delivery_note+'<span>总价： '+item['totalmoney']+'</span></p>';
+                    });
+                    $('.delivery-note').html(delivery_note);
+                }
             });
 
             //监听行单击事件（单击事件为：rowDouble）
@@ -62,14 +88,12 @@
                     if(index.indexOf('requirement') > -1 && item > 0){
                         thdata += '<th lay-data="{field:\''+index+'\', width:100}">'+titledata[index]+'</th><th lay-data="{field:\'price\', width:100}">价格</th>';
                         tddata += '<td>'+item+'</td><td>'+data['price'+strseparator+index.split(strseparator)[1]]+'</td>';
-                        //item * data['price'+strseparator+index.split(strseparator)[1]];
                     }
                 });
                 thdata += '<th lay-data="{field:\'totalmoney\', width:100}">总价</th></tr></thead> ';
                 tddata += '<td>'+data['totalmoney']+'</td></tr></tbody>';
                 $('.parse-table-demo').html(thdata+tddata);
                 active['parseTable'] ? active['parseTable'].call(this) : '';
-                console.log(data);
                 // //标注选中样式
                 obj.tr.addClass('layui-table-click').siblings().removeClass('layui-table-click');
 
