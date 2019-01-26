@@ -72,7 +72,7 @@
                             </a>
                             <dl class="layui-nav-child">
                                 <dd>
-                                    <a lay-href="/order">当天下单</a>
+                                    <a lay-href="/order">下单处理</a>
                                 </dd>
                             </dl>
                         </li>
