@@ -55,6 +55,7 @@ class OrderController extends Controller
 
         //table title
         $productTitle = "[[{type:'checkbox',fixed:'left'},{field:'cid', width:60, title: 'ID', totalRowText: '合计'},";
+        $titleData = array();
         foreach ($productData as $pv){
             $productTitle .= "{field:'requirement".$this->strseparator.$pv['id']."', title:'".$pv['name']."量', width:120, edit: 'text', totalRow: true},";
             $productTitle .= "{field:'price".$this->strseparator.$pv['id']."', title:'单价', width:60, edit: 'text'},";
