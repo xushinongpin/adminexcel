@@ -62,7 +62,7 @@
                 ,title: '客户数据表'
                 ,cols: product
                 ,id: 'testReload'
-                ,height: 600
+                ,height: 500
                 ,even: true
                 ,skin:'row'
                 ,totalRow: true
