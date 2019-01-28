@@ -72,7 +72,7 @@
                         s_delivery_note = '';
                         layui.each(item,function (mindex,mitem) {
                             if(mindex.indexOf('requirement') > -1 && mitem > 0){
-                                s_delivery_note += '<span> '+titledata[mindex]+': '+item['price'+strseparator+mindex.split(strseparator)[1]]+': </span>';
+                                s_delivery_note += '<span> '+titledata[mindex]+': '+mitem+': </span>';
                             }
                         });
                         if(s_delivery_note) delivery_note += '<p><span>客户： '+item['username']+'</span>'+s_delivery_note+'<span>总价： '+item['totalmoney']+'</span></p>';
