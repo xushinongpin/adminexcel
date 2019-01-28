@@ -25,4 +25,8 @@ Route::resource('/order','OrderController');
 
 Route::resource('/products','ProductController');
 
+Route::get('/bill','OrderController@bill');
+
+Route::get('/delivery','OrderController@delivery');
+
 //Route::post('/customer','CustomerController@update');

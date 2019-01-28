@@ -141,8 +141,24 @@ class OrderController extends Controller
         //
     }
 
+    //结账单
+    public function bill(Request $request){
+        $order = new Order();
+        $data = $order->joincustomerproduct($request);
+        return view('order/bill',['datas'=>$data]);
+
+    }
+
+    //送货单
+    public function delivery(Request $request){
+        $order = new Order();
+        $data = $order->joincustomerproduct($request);
+        return view('order/delivery',['datas'=>$data]);
+    }
+
     private function consolidated($carr,$parr,$oarr){
-        $oarr = $this->treeorder($oarr);
+        $order = new Order();
+        $oarr = $order->treeorder($oarr);
         $data['totalmoney'] = 0;
         foreach ($parr as $pv){
             $data['username'] = $carr['name'];
@@ -171,13 +187,4 @@ class OrderController extends Controller
         return $newarr;
     }
 
-    //组合好订单数组
-    private static function treeorder($oarr){
-        $new = array();
-        foreach ($oarr as $ov) {
-            $new[$ov['cid']][$ov['pid']]['price'] = $ov['price'];
-            $new[$ov['cid']][$ov['pid']]['requirement'] = $ov['requirement'];
-        }
-        return $new;
-    }
 }

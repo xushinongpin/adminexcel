@@ -75,6 +75,16 @@
                                     <a lay-href="/order">下单处理</a>
                                 </dd>
                             </dl>
+                            <dl class="layui-nav-child">
+                                <dd>
+                                    <a lay-href="/delivery">送货单</a>
+                                </dd>
+                            </dl>
+                            <dl class="layui-nav-child">
+                                <dd>
+                                    <a lay-href="/bill">结账单</a>
+                                </dd>
+                            </dl>
                         </li>
                         <li data-name="user" class="layui-nav-item">
                             <a href="javascript:;" lay-tips="订单表" lay-direction="2">

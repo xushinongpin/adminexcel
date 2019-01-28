@@ -34,6 +34,31 @@ class Order extends Model
         return true;
     }
 
+    public function joincustomerproduct($request){
+        $request->limit = 1000000;
+        $orderData = $this->index($request);
+        $product = new Product();
+        $productData = $product->index($request);
+        //id作为key
+        $productKey = array_column($productData->items(),'id');
+        $productData = array_combine($productKey,$productData->items());
+        $customer = new Customer();
+        $customerData = $customer->index($request);
+        //id作为key
+        $customerKey = array_column($customerData->items(),'id');
+        $customerData = array_combine($customerKey,$customerData->items());
+        //数组组合
+        $newData = array();
+        foreach ($orderData as $ov){
+            $newData[$ov['cid']]['cname'] = $customerData[$ov['cid']]['name'];
+            $newData[$ov['cid']]['time'] = date("Y-m-d",strtotime($ov['time']));
+            isset($newData[$ov['cid']]['total']) ? $newData[$ov['cid']]['total'] = $newData[$ov['cid']]['total'] + $ov['price']*$ov['requirement'] : $newData[$ov['cid']]['total'] = $ov['price']*$ov['requirement'];
+            $ov['pname'] = $productData[$ov['pid']]['name'];
+            $newData[$ov['cid']]['data'][] = $ov;
+        }
+        return $newData;
+    }
+
     private function insertnewdata($data){
         DB::beginTransaction();
         try{
@@ -69,5 +94,15 @@ class Order extends Model
             DB::rollback();
             return false;
         }
+    }
+
+    //组合好订单数组
+    public static function treeorder($oarr){
+        $new = array();
+        foreach ($oarr as $ov) {
+            $new[$ov['cid']][$ov['pid']]['price'] = $ov['price'];
+            $new[$ov['cid']][$ov['pid']]['requirement'] = $ov['requirement'];
+        }
+        return $new;
     }
 }
