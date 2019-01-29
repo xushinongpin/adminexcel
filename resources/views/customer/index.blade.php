@@ -1,56 +1,46 @@
 @extends('layui.default')
 @section('content')
-
-    <div class="layui-fluid demoTable">
-        <div class="layui-card">
-            <div class="layui-card-body">
-                <div style="padding-bottom: 10px;">
-                    <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+        <div class="layui-fluid demoTable">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div style="padding-bottom: 10px;">
+                        <button class="layui-btn layuiadmin-btn-useradmin" data-type="add">添加</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <table class="layui-hide" id="test" lay-filter="test"></table>
-    {{--<script type="text/html" id="toolbarDemo">--}}
-        {{--<div class="layui-btn-container">--}}
-            {{--<button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>--}}
-            {{--<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>--}}
-            {{--<button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>--}}
-        {{--</div>--}}
-    {{--</script>--}}
-
-    <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    </script>
-    <div class="layui-row" id="popUpdateTest" style="display:none;">
-        <div class="layui-col-md10">
-            <form class="layui-form layui-from-pane" action="" style="margin-top:20px" >
-                <div class="layui-form-item">
-                    <label class="layui-form-label">客户状态</label>
-                    <div class="layui-input-block">
-                        <select name="status" lay-filter="eqptType">
-                            <option value="1" selected="">启用</option>
-                            <option value="2">停用</option>
-                        </select>
+        <table class="layui-hide" id="test" lay-filter="test"></table>
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+        <div class="layui-row" id="popUpdateTest" style="display:none;">
+            <div class="layui-col-md10">
+                <form class="layui-form layui-from-pane" action="" style="margin-top:20px" >
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">客户状态</label>
+                        <div class="layui-input-block">
+                            <select name="status" lay-filter="eqptType">
+                                <option value="1" selected="">启用</option>
+                                <option value="2">停用</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">客户名称</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="name" required  lay-verify="required" autocomplete="off" placeholder="请输入客户名称" class="layui-input">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">客户名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" required  lay-verify="required" autocomplete="off" placeholder="请输入客户名称" class="layui-input">
+                        </div>
                     </div>
-                </div>
-                <div class="layui-form-item" style="margin-top:40px">
-                    <div class="layui-input-block">
-                        <button class="layui-btn  layui-btn-submit " lay-submit="" lay-filter="addcustomer">确认添加</button>
-                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <div class="layui-form-item" style="margin-top:40px">
+                        <div class="layui-input-block">
+                            <button class="layui-btn  layui-btn-submit " lay-submit="" lay-filter="addcustomer">确认添加</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
 @section('layuijs')
     <script>
         layui.use('table', function(){
@@ -75,7 +65,7 @@
                     ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
                 ]]
                 ,page: true
-                ,height: 600
+                ,height: 400
                 ,id: 'testReload'
                 ,limits: [10,50,100,200,500]
                 ,even: true

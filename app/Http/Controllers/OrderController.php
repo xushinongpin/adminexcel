@@ -18,6 +18,7 @@ class OrderController extends Controller
     {
         $this->middleware('auth');
         $this->strseparator = '--';
+        $this->moneyconversion = config('app.moneyconversion');
     }
     /**
      * Display a listing of the resource.
@@ -89,7 +90,7 @@ class OrderController extends Controller
         $data = json_decode($request->data,true);
         foreach ($data as $dv){
             $ndata = $this->searchexprrd($dv);
-            $order->insertorupdate($ndata,$dv['cid'],$request->time);
+            $order->insertorupdate($ndata,$dv['cid'],$request->time,$this->moneyconversion);
         }
         $succ['status'] = 1;
         $succ['msg'] = '即将刷新页面';
@@ -144,7 +145,7 @@ class OrderController extends Controller
     //结账单
     public function bill(Request $request){
         $order = new Order();
-        $data = $order->joincustomerproduct($request);
+        $data = $order->joincustomerproduct($request,$this->moneyconversion);
         return view('order/bill',['datas'=>$data]);
 
     }
@@ -152,13 +153,13 @@ class OrderController extends Controller
     //送货单
     public function delivery(Request $request){
         $order = new Order();
-        $data = $order->joincustomerproduct($request);
+        $data = $order->joincustomerproduct($request,$this->moneyconversion);
         return view('order/delivery',['datas'=>$data]);
     }
 
     private function consolidated($carr,$parr,$oarr){
         $order = new Order();
-        $oarr = $order->treeorder($oarr);
+        $oarr = $order->treeorder($oarr,$this->moneyconversion);
         $data['totalmoney'] = 0;
         foreach ($parr as $pv){
             $data['username'] = $carr['name'];

@@ -61,7 +61,7 @@
             <div class="layui-side layui-side-menu">
                 <div class="layui-side-scroll">
                     <div class="layui-logo" lay-href="/order">
-                        <span>操作功能</span>
+                        <span>默认明天订单</span>
                     </div>
 
                     <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">

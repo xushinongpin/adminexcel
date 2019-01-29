@@ -2,11 +2,9 @@
 @section('content')
     <style>
         .demoTable{margin:20px 0 0 20px}
-        .divbox{width: 100%;height: 100%;overflow: scroll;}
-        .delivery-note p{height: 40px;line-height: 40px;border: 1px solid #a7a5a5;padding: 1px;margin-top: 2px}
-        .delivery-note p span{display: inline-block;height: 100%; border: 1px solid #a7a5a5;padding:0 10px 0 10px;}
+        .delivery-note div{border: 1px solid #de2828;padding: 1px;margin-top: 10px}
+        .delivery-note div span{height: 40px;line-height: 40px;display: inline-block;border: 1px solid #a7a5a5;padding:0 10px 0 10px;margin: 2px 0 2px 0}
     </style>
-    <div class="divbox">
         <div class="demoTable">
             <div class="layui-inline">
                 <label class="layui-form-label">哪天数据：</label>
@@ -37,7 +35,6 @@
             </blockquote>
             <div class="delivery-note"></div>
         </div>
-    </div>
 @section('layuijs')
     <script>
         layui.use(['form', 'layedit', 'laydate','table'], function(){
@@ -62,7 +59,7 @@
                 ,title: '客户数据表'
                 ,cols: product
                 ,id: 'testReload'
-                ,height: 500
+                ,height: 400
                 ,even: true
                 ,skin:'row'
                 ,totalRow: true
@@ -75,7 +72,7 @@
                                 s_delivery_note += '<span> '+titledata[mindex]+': '+mitem+': </span>';
                             }
                         });
-                        if(s_delivery_note) delivery_note += '<p><span>客户： '+item['username']+'</span>'+s_delivery_note+'<span>总价： '+item['totalmoney']+'</span></p>';
+                        if(s_delivery_note) delivery_note += '<div><span>客户： '+item['username']+'</span>'+s_delivery_note+'<span>总价： '+item['totalmoney']+'</span></div>';
                     });
                     $('.delivery-note').html(delivery_note);
                 }

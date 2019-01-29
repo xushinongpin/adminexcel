@@ -9,6 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="/layui/src/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layui/src/layuiadmin/style/admin.css" media="all">
+    <style>
+        .layui-layout-body{width: 100%;height: 100%;overflow: scroll;}
+    </style>
 </head>
 <body class="layui-layout-body">
 @yield('content')

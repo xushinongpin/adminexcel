@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'moneyconversion' => env('MONEYCONVERSION',10000),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
