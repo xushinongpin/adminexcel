@@ -38,6 +38,7 @@ class Product extends Model
             $save['name'] = $request->name;
             $save['status'] = $request->status;
             $save['updated_at'] = date("Y-m-d H:i:s");
+            $save['price'] = $request->price;
             $where['id'] = $request->id;
             $where['uid'] = $this->uid;
             $return = $this->where($where)->update($save);
@@ -56,6 +57,7 @@ class Product extends Model
         $customer->updated_at = $customer->created_at = date("Y-m-d H:i:s");
         $customer->name = $request->name;
         $customer->status = $request->status;
+        $customer->price = $request->price;
         return $customer->save();
     }
 

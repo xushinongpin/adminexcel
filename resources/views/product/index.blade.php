@@ -32,6 +32,12 @@
                             <input type="text" name="name" required  lay-verify="required" autocomplete="off" placeholder="请输入客户名称" class="layui-input">
                         </div>
                     </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">产品价格</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="price" required  lay-verify="required" autocomplete="off" placeholder="请输入产品价格" class="layui-input">
+                        </div>
+                    </div>
                     <div class="layui-form-item" style="margin-top:40px">
                         <div class="layui-input-block">
                             <button class="layui-btn  layui-btn-submit " lay-submit="" lay-filter="addcustomer">确认添加</button>
@@ -56,6 +62,7 @@
                 ,cols: [[
                     {field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true}
                     ,{field:'name', title:'产品名称', width:120, edit: 'text'}
+                    ,{field:'price', title:'产品价格', width:120, edit: 'text'}
                     ,{field:'status', title:'状态【1使用 2停用】', width:200, edit: 'text', templet: function(res){
                             var statusObj = {'1':'启用','2':'停用'};
                             return '<em>'+ statusObj[res.status] +'</em>'

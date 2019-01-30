@@ -83,8 +83,8 @@
                 var data = obj.data,thdata = '<table lay-filter="parse-table-demo"><thead><tr><th lay-data="{field:\'username\', width:200}">用户</th>',tddata = '<tbody><tr><td>'+data['username']+'</td>';
                 layui.each(data,function (index,item) {
                     if(index.indexOf('requirement') > -1 && item > 0){
-                        thdata += '<th lay-data="{field:\''+index+'\', width:100}">'+titledata[index]+'</th><th lay-data="{field:\'price\', width:100}">价格</th>';
-                        tddata += '<td>'+item+'</td><td>'+data['price'+strseparator+index.split(strseparator)[1]]+'</td>';
+                        thdata += '<th lay-data="{field:\''+index+'\', width:150}">'+titledata[index]+'/单价</th>';
+                        tddata += '<td>'+item+'/'+data['price'+strseparator+index.split(strseparator)[1]]+'</td>';
                     }
                 });
                 thdata += '<th lay-data="{field:\'totalmoney\', width:100}">总价</th></tr></thead> ';
@@ -160,7 +160,8 @@
                                         time: 2000 //1秒关闭（如果不配置，默认是3秒）
                                     }, function(){
                                         table.reload('testReload', {
-                                            page: {
+                                            where:{time:$('#date').val()}
+                                            ,page: {
                                                 curr: 1 //重新从第 1 页开始
                                             }
                                         });

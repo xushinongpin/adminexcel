@@ -162,6 +162,7 @@ class OrderController extends Controller
         $oarr = $order->treeorder($oarr,$this->moneyconversion);
         $data['totalmoney'] = 0;
         foreach ($parr as $pv){
+            $price = 0;
             $data['username'] = $carr['name'];
             $data['cid'] = $carr['id'];
             $data['LAY_CHECKED'] = true;
@@ -169,7 +170,12 @@ class OrderController extends Controller
             if(isset($oarr[$carr['id']][$pv['id']]['price'])){
                 $data['totalmoney'] += ($oarr[$carr['id']][$pv['id']]['price'] * $oarr[$carr['id']][$pv['id']]['requirement']);
             }
-            $data['price'.$this->strseparator.$pv['id']] = isset($oarr[$carr['id']][$pv['id']]['price']) ? $oarr[$carr['id']][$pv['id']]['price'] : 0;
+            if(!isset($oarr[$carr['id']][$pv['id']]['price'])){
+                $price = $order->userproductprice($carr['id'],$pv['id'],$this->moneyconversion,$parr);
+            }else{
+                $price = $oarr[$carr['id']][$pv['id']]['price'];
+            }
+            $data['price'.$this->strseparator.$pv['id']] = $price;
             $data['requirement'.$this->strseparator.$pv['id']] = isset($oarr[$carr['id']][$pv['id']]['requirement']) ? $oarr[$carr['id']][$pv['id']]['requirement'] : 0;
         }
         return $data;

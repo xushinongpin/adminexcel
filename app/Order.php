@@ -25,7 +25,7 @@ class Order extends Model
         empty($time) ? $time = strtotime("+1 day") : $time = strtotime($time);
         $time = date("Y-m-d 00:00:00",$time);
         foreach ($data as $dk => $dv){
-            if($dv['requirement'] == 0 && $dv['price'] == 0) continue;
+            if($dv['requirement'] == 0 || $dv['price'] == 0) continue;
             $dv['cid'] = $cid;
             $dv['time'] = $time;
             $dv['pid'] = $dk;
@@ -106,5 +106,18 @@ class Order extends Model
             $new[$ov['cid']][$ov['pid']]['requirement'] = ($ov['requirement']/$conversion);
         }
         return $new;
+    }
+
+    public function userproductprice($cid,$pid,$moneyconversion,$product){
+        $where['uid'] = $this->uid;
+        $where['cid'] = $cid;
+        $where['pid'] = $pid;
+        $data = $this->where($where)->orderBy('time','desc')->select('price')->first();
+        if($data) return $data['price']/$moneyconversion;
+        $price = 0;
+        foreach ($product as $pv){
+            if($pv['id'] == $pid) $price = $pv['price'];
+        }
+        return $price;
     }
 }
