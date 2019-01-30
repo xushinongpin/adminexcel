@@ -15,6 +15,7 @@ class ProductController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->moneyconversion = config('app.moneyconversion');
     }
 
     /**
@@ -50,7 +51,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $product = new Product();
-        return $this->returnAjaxStatus($product->updateOnlyOne($request));
+        return $this->returnAjaxStatus($product->updateOnlyOne($request,$this->moneyconversion));
     }
 
     /**

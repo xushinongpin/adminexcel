@@ -13,11 +13,12 @@ class Product extends Model
 
     public function index($request){
         $uid = $this->uid;
-        return $this->where('uid',$uid)->orderBy('status','asc')->paginate($request->limit);
+        return $this->productmoneyconversion($this->where('uid',$uid)->orderBy('status','asc')->paginate($request->limit));
     }
 
     //update one customer data
-    public function updateOnlyOne($request){
+    public function updateOnlyOne($request,$moneyconversion){
+        $request->price = ($request->price * $moneyconversion);
         $res['status'] = 0;
         $res['msg'] = '添加修改失败';
         if(!is_numeric($request->status) && ($request->status != 1 || $request->status != 2)){
@@ -72,6 +73,15 @@ class Product extends Model
     public function canSales($status=1){
         $where['uid'] = $this->uid;
         $where['status'] = $status;
-        return $this->where($where)->get();
+        return $this->productmoneyconversion($this->where($where)->get());
+
+    }
+
+    private function productmoneyconversion($data){
+        $moneyconversion = config('app.moneyconversion');
+        foreach ($data as &$dv){
+            $dv['price'] = ($dv['price'] / $moneyconversion);
+        }
+        return $data;
     }
 }
