@@ -77,6 +77,11 @@
                             </dl>
                             <dl class="layui-nav-child">
                                 <dd>
+                                    <a lay-href="/deleteorder">删除订单</a>
+                                </dd>
+                            </dl>
+                            <dl class="layui-nav-child">
+                                <dd>
                                     <a lay-href="/delivery">送货单</a>
                                 </dd>
                             </dl>

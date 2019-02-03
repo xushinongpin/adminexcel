@@ -45,12 +45,12 @@ class OrderController extends Controller
             foreach ($customerData as $cv){
                 $orderTableArr[$cv['id']] = $this->consolidated($cv,$productData,$orderData);
             }
-            $returnData = array();
-            $returnData['code'] = 0;
-            $returnData['count'] = count($orderTableArr);
-            $returnData['msg'] = '正在进行分页查询';
-            $returnData['data'] = $orderTableArr;
-            unset($orderTableArr);
+            $returnData = $this->onlyAjaxData($orderTableArr);
+//            $returnData['code'] = 0;
+//            $returnData['count'] = count($orderTableArr);
+//            $returnData['msg'] = '正在进行分页查询';
+//            $returnData['data'] = $orderTableArr;
+//            unset($orderTableArr);
             return $returnData;
         }
 
@@ -157,6 +157,7 @@ class OrderController extends Controller
         return view('order/delivery',['datas'=>$data]);
     }
 
+    //三表转换
     private function consolidated($carr,$parr,$oarr){
         $order = new Order();
         $oarr = $order->treeorder($oarr,$this->moneyconversion);
@@ -194,4 +195,32 @@ class OrderController extends Controller
         return $newarr;
     }
 
+    //删除订单 显示
+    public function deleteOrderShow(Request $request){
+        if($request->ajax()){
+            //select order
+            $order = new Order();
+            $orderData = $order->index($request);
+
+            //select product
+            $product = new Product();
+            $productData = $product->index($request);
+            //id作为key
+            $productData = $product->idtokey($productData->items());
+            foreach ($orderData as &$ov){
+                $ov['pname'] = $productData[$ov['pid']]['name'];
+            }
+            return $this->onlyAjaxData($orderData);
+
+        }
+        $customer = new Customer();
+        $customerData = $customer->index($request);
+        return view('order/deleteorder',['customerdatas'=>$customerData]);
+    }
+
+    //删除订单 操作
+    public function isdeleteOrder(Request $request){
+        $order = new Order();
+        return $order->deleteOrder($request);
+    }
 }

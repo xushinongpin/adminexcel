@@ -25,6 +25,15 @@ class Controller extends BaseController
         return $returnData;
     }
 
+    public function onlyAjaxData($data){
+        $returnData = array();
+        $returnData['code'] = 0;
+        $returnData['count'] = count($data);
+        $returnData['msg'] = '正在进行分页查询';
+        $returnData['data'] = $data;
+        return $returnData;
+    }
+
     //Returns the judgment data required by ajax status 0/1
     public function returnAjaxStatus($data){
         return $data;

@@ -14,6 +14,7 @@ class Order extends Model
 
     public function index($request){
         $where['uid'] = $this->uid;
+        if($request->cid) $where['cid'] = $request->cid;
         $time = $request->time;
         empty($time) ? $time = strtotime("+1 day") : $time = strtotime($time);
         $time = date("Y-m-d 00:00:00",$time);
@@ -40,13 +41,11 @@ class Order extends Model
         $product = new Product();
         $productData = $product->index($request);
         //id作为key
-        $productKey = array_column($productData->items(),'id');
-        $productData = array_combine($productKey,$productData->items());
+        $productData = $product->idtokey($productData->items());
         $customer = new Customer();
         $customerData = $customer->index($request);
         //id作为key
-        $customerKey = array_column($customerData->items(),'id');
-        $customerData = array_combine($customerKey,$customerData->items());
+        $customerData = $product->idtokey($customerData->items());
         //数组组合
         $newData = array();
         foreach ($orderData as &$ov){
@@ -61,6 +60,9 @@ class Order extends Model
         return $newData;
     }
 
+    public function deleteOrder($request){
+        return Order::whereIn('id',explode(',',$request->oid))->where('uid',$this->uid)->delete();
+    }
     private function insertnewdata($data,$moneyconversion=10000){
         DB::beginTransaction();
         try{

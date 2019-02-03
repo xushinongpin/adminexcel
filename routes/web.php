@@ -29,4 +29,8 @@ Route::get('/bill','OrderController@bill');
 
 Route::get('/delivery','OrderController@delivery');
 
+Route::get('/deleteorder','OrderController@deleteOrderShow');
+
+Route::post('/deleteorder','OrderController@isdeleteOrder');
+
 //Route::post('/customer','CustomerController@update');

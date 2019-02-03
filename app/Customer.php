@@ -66,4 +66,11 @@ class Customer extends Model
         $where['uid'] = $this->uid;
         return $this->where($where)->delete();
     }
+
+    //use it id to do key
+    public function idtokey($data){
+        $customerKey = array_column($data,'id');
+        $productData = array_combine($customerKey,$data);
+        return $productData;
+    }
 }

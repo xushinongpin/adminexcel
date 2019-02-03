@@ -84,4 +84,11 @@ class Product extends Model
         }
         return $data;
     }
+
+    //use it id to do key
+    public function idtokey($data){
+        $productKey = array_column($data,'id');
+        $productData = array_combine($productKey,$data);
+        return $productData;
+    }
 }

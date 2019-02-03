@@ -16,7 +16,7 @@
         </div>
         <table class="layui-hide" id="test" lay-filter="test"></table>
         <script type="text/html" id="toolbarDemo">
-            <button class="layui-btn layui-btn-sm" lay-event="getCheckData">提交修改</button>【选中需要提交的】
+            <button class="layui-btn layui-btn-sm" lay-event="getCheckData">提交修改</button>【选中需要提交的；货品量跟单价随意一个为0都不做处理】
         </script>
         <script type="text/html" id="barDemo">
             <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>

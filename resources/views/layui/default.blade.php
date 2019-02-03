@@ -18,4 +18,15 @@
 <script src="/layui/src/layuiadmin/layui/layui.js"></script>
 @yield('layuijs')
 </body>
+<script>
+    //用于判断对象是否为空
+    function isEmpty(obj) {
+        for(var prop in obj) {
+            if(obj.hasOwnProperty(prop))
+                return false;
+        }
+
+        return true;
+    }
+</script>
 </html>
